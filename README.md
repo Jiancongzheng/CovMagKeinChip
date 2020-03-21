@@ -1,6 +1,6 @@
 # CovMagKeinChip
 This repo is a part of #WirVsVirus hackathon event initiated by the federal government of germany together with other seven organizations from 20-22.03.2020.
-The aim of this activity is to help Germany society better withstand the outbreak of SRAS-CoV-2 in 2020.
+The aim of this activity is to find out creative ideas which can help peaple better withstand the outbreak of SRAS-CoV-2 in 2020.
 # Members
 - Jiancong Zheng
 - Teng Chen
