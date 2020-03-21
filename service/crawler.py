@@ -38,10 +38,78 @@ class Crawler:
         
     def restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
+        print ('# Active cases:')
         for country in countries:
-            delete country['id']
-            delete country['createTime']
-            delete country['modifyTime']
+            if 'incrVo' in country:
+                print(country['countryFullName'] + ': ' + str(country['confirmedCount'] - country['curedCount']))
+            try:
+                country.pop("incrVo")
+            except KeyError:
+                pass
+            try:
+                country.pop("id")
+            except KeyError:
+                pass
+            try:
+                country.pop("createTime")
+            except KeyError:
+                pass
+            try:
+                country.pop("modifyTime")
+            except KeyError:
+                pass
+            try:
+                country.pop("tags")
+            except KeyError:
+                pass
+            try:
+                country.pop("provinceShortName")
+            except KeyError:
+                pass
+            try:
+                country.pop("provinceId")
+            except KeyError:
+                pass
+            try:
+                country.pop("cityName")
+            except KeyError:
+                pass
+            try:
+                country.pop("currentConfirmedCount")
+            except KeyError:
+                pass
+            try:
+                country.pop("createTime")
+            except KeyError:
+                pass
+            try:
+                country.pop("comment")
+            except KeyError:
+                pass
+            try:
+                country.pop("sort")
+            except KeyError:
+                pass
+            try:
+                country.pop("operator")
+            except KeyError:
+                pass
+            try:
+                country.pop("locationId")
+            except KeyError:
+                pass
+            try:
+                country.pop("countryShortCode")
+            except KeyError:
+                pass
+            try:
+                country.pop("statisticsData")
+            except KeyError:
+                pass
+            try:
+                country.pop("countryType")
+            except KeyError:
+                pass
         return countries
         
 
