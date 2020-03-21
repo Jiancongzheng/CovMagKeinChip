@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
 
 
 from bs4 import BeautifulSoup
@@ -11,10 +10,6 @@ from requests_html import HTMLSession
 import json
 import re
 from random import choice
-
-
-# In[12]:
-
 
 class Crawler:
     
@@ -27,23 +22,26 @@ class Crawler:
         r = self.session.get(url, headers=headers)
         soup = BeautifulSoup(r.content, 'lxml')
         overall_information = re.search(r'(\{"id".*\})\}', str(soup.find('script', attrs={'id': 'getStatisticsService'})))
-        '''re: 正则表达式模块'''
+        abroad_information = re.search(r'\[(.*)\]', str(soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
+
         if overall_information:
-            self.restructure_overall(overall_information=overall_information)
-        overall_information
+            overall_information = self.restructure_overall(overall_information=overall_information)
+        
+        if abroad_information:
+            abroad_information = self.restructure_abroad(abroad_information=abroad_information)
+        
+        return abroad_information
         
     def restructure_overall(self, overall_information):
         overall_information = json.loads(overall_information.group(1))
-        overall_information.pop('id')
-        overall_information.pop('createTime')
-        overall_information.pop('modifyTime')
-        overall_information.pop('imgUrl')
-        overall_information.pop('deleted')
-        overall_information['countRemark'] = overall_information['countRemark'].replace(' 疑似', '，疑似').replace(' 治愈', '，治愈').replace(' 死亡', '，死亡').replace(' ', '')
+        return overall_information
+        
+    def restructure_abroad(self, abroad_information):
+        countries = json.loads(abroad_information.group(0))
+        delete countries.statisticsData
+        return abroad_information
         
 
-
-# In[ ]:
 
 
 
