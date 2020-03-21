@@ -38,8 +38,11 @@ class Crawler:
         
     def restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
-        delete countries.statisticsData
-        return abroad_information
+        for country in countries:
+            delete country['id']
+            delete country['createTime']
+            delete country['modifyTime']
+        return countries
         
 
 
