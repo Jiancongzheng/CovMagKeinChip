@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 country_name_map = {
     '钻石公主号邮轮': 'Diamond Princess Cruise Ship',
     '安哥拉': 'Angola',

@@ -15,33 +15,30 @@ class Crawler:
     
     def __init__(self):
         self.session = HTMLSession()
-        
-    def get_response(self):
         headers = {"User-Agent": choice(user_agent_list)}
         url = 'https://ncov.dxy.cn/ncovh5/view/pneumonia'
         r = self.session.get(url, headers=headers)
-        soup = BeautifulSoup(r.content, 'lxml')
-        overall_information = re.search(r'(\{"id".*\})\}', str(soup.find('script', attrs={'id': 'getStatisticsService'})))
-        abroad_information = re.search(r'\[(.*)\]', str(soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
-
+        self.soup = BeautifulSoup(r.content, 'lxml')
+        
+    def get_overall(self):
+        overall_information = re.search(r'(\{"id".*\})\}', str(self.soup.find('script', attrs={'id': 'getStatisticsService'})))
         if overall_information:
-            overall_information = self.restructure_overall(overall_information=overall_information)
-        
+            overall_information = self.__restructure_overall(overall_information=overall_information)
+        return overall_information
+
+    def get_abroad(self):
+        abroad_information = re.search(r'\[(.*)\]',str(self.soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
         if abroad_information:
-            abroad_information = self.restructure_abroad(abroad_information=abroad_information)
-        
+            abroad_information = self.__restructure_abroad(abroad_information=abroad_information)
         return abroad_information
-        
-    def restructure_overall(self, overall_information):
+
+    def __restructure_overall(self, overall_information):
         overall_information = json.loads(overall_information.group(1))
         return overall_information
         
-    def restructure_abroad(self, abroad_information):
+    def __restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
-        print ('# Active cases:')
         for country in countries:
-            if 'incrVo' in country:
-                print(country['countryFullName'] + ': ' + str(country['confirmedCount'] - country['curedCount']))
             try:
                 country.pop("incrVo")
             except KeyError:
