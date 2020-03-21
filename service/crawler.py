@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
-
 from bs4 import BeautifulSoup
 from service.name_map import country_name_map, continent_name_map
 from service.user_agent import user_agent_list
@@ -23,18 +21,20 @@ class Crawler:
     def get_overall(self):
         overall_information = re.search(r'(\{"id".*\})\}', str(self.soup.find('script', attrs={'id': 'getStatisticsService'})))
         if overall_information:
-            overall_information = self.__restructure_overall(overall_information=overall_information)
-        return overall_information
+            restructured_information = self.__restructure_overall(overall_information=overall_information)
+        return restructured_information
 
     def get_abroad(self):
-        abroad_information = re.search(r'\[(.*)\]',str(self.soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
+        abroad_information = re.search(r'\[(.*)\]', str(self.soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
         if abroad_information:
-            abroad_information = self.__restructure_abroad(abroad_information=abroad_information)
-        return abroad_information
+            restructured_information = self.__restructure_abroad(abroad_information=abroad_information)
+        return restructured_information
 
     def __restructure_overall(self, overall_information):
-        overall_information = json.loads(overall_information.group(1))
-        return overall_information
+        info = json.loads(overall_information.group(1))
+        resturctured_info = {'remark1': info['remark1'], 'remark2': info['remark2'], 'note1': info['note1'], 'note2': info['note2'], 'note3': info['note3'],
+                             'globalStatistics': info['globalStatistics']}
+        return resturctured_info
         
     def __restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
