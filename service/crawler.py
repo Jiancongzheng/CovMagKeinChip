@@ -39,6 +39,7 @@ class Crawler:
     def __restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
         for country in countries:
+            country["activeCount"] = country['confirmedCount'] - country['curedCount']
             try:
                 country.pop("incrVo")
             except KeyError:
