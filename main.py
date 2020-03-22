@@ -16,6 +16,7 @@ print(overall_info)
 abroad_info.sort(key=table.confirmed_sort, reverse=True)
 table.table_print(info_list=abroad_info)
 
+
 """
 print('# Active cases: ')
 
