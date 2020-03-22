@@ -19,93 +19,95 @@ class Crawler:
         self.soup = BeautifulSoup(r.content, 'lxml')
         
     def get_overall(self):
-        overall_information = re.search(r'(\{"id".*\})\}', str(self.soup.find('script', attrs={'id': 'getStatisticsService'})))
+        overall_information = re.search(r'(\{"id".*\})\}', str(self.soup.find('script',
+                                                                              attrs={'id': 'getStatisticsService'})))
         if overall_information:
             restructured_information = self.__restructure_overall(overall_information=overall_information)
         return restructured_information
 
     def get_abroad(self):
-        abroad_information = re.search(r'\[(.*)\]', str(self.soup.find('script', attrs={'id': 'getListByCountryTypeService2true'})))
+        abroad_information = re.search(r'\[(.*)\]', str(self.soup.find('script',
+                                                                       attrs={'id': 'getListByCountryTypeService2true'})))
         if abroad_information:
             restructured_information = self.__restructure_abroad(abroad_information=abroad_information)
         return restructured_information
 
     def __restructure_overall(self, overall_information):
         info = json.loads(overall_information.group(1))
-        resturctured_info = {'remark1': info['remark1'], 'remark2': info['remark2'], 'note1': info['note1'], 'note2': info['note2'], 'note3': info['note3'],
-                             'globalStatistics': info['globalStatistics']}
+        resturctured_info = {'remark1': info['remark1'], 'remark2': info['remark2'], 'note1': info['note1'],
+                             'note2': info['note2'], 'note3': info['note3'], 'globalStatistics': info['globalStatistics']}
         return resturctured_info
         
     def __restructure_abroad(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
         for country in countries:
-            country["activeCount"] = country['confirmedCount'] - country['curedCount']
+            country['activeCount'] = country['confirmedCount'] - country['curedCount']
             try:
-                country.pop("incrVo")
+                country.pop('incrVo')
             except KeyError:
                 pass
             try:
-                country.pop("id")
+                country.pop('id')
             except KeyError:
                 pass
             try:
-                country.pop("createTime")
+                country.pop('createTime')
             except KeyError:
                 pass
             try:
-                country.pop("modifyTime")
+                country.pop('modifyTime')
             except KeyError:
                 pass
             try:
-                country.pop("tags")
+                country.pop('tags')
             except KeyError:
                 pass
             try:
-                country.pop("provinceShortName")
+                country.pop('provinceShortName')
             except KeyError:
                 pass
             try:
-                country.pop("provinceId")
+                country.pop('provinceId')
             except KeyError:
                 pass
             try:
-                country.pop("cityName")
+                country.pop('cityName')
             except KeyError:
                 pass
             try:
-                country.pop("currentConfirmedCount")
+                country.pop('currentConfirmedCount')
             except KeyError:
                 pass
             try:
-                country.pop("createTime")
+                country.pop('createTime')
             except KeyError:
                 pass
             try:
-                country.pop("comment")
+                country.pop('comment')
             except KeyError:
                 pass
             try:
-                country.pop("sort")
+                country.pop('sort')
             except KeyError:
                 pass
             try:
-                country.pop("operator")
+                country.pop('operator')
             except KeyError:
                 pass
             try:
-                country.pop("locationId")
+                country.pop('locationId')
             except KeyError:
                 pass
             try:
-                country.pop("countryShortCode")
+                country.pop('countryShortCode')
             except KeyError:
                 pass
             try:
-                country.pop("statisticsData")
+                country.pop('statisticsData')
             except KeyError:
                 pass
             try:
-                country.pop("countryType")
+                country.pop('countryType')
             except KeyError:
                 pass
         return countries

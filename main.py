@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from service.crawler import Crawler
-import service.table as st
+import service.table as table
 
 
 crawler = Crawler()
@@ -13,8 +13,8 @@ abroad_info = crawler.get_abroad()
 print(overall_info)
 '''
 
-abroad_info.sort(key=st.active_sort, reverse=True)
-st.table_print(info_list=abroad_info)
+abroad_info.sort(key=table.confirmed_sort, reverse=True)
+table.table_print(info_list=abroad_info)
 
 """
 print('# Active cases: ')

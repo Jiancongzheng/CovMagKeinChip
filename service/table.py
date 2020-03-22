@@ -23,3 +23,11 @@ def cured_sort(element):
 
 def active_sort(element):
     return element['activeCount']
+
+
+def continent_sort(element):
+    return element['continents']
+
+
+def country_sort(element):
+    return element['provinceName']
